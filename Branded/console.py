@@ -24,8 +24,8 @@ logging.getLogger("pyrogram").setLevel(logging.ERROR)
 logging.getLogger("pytgcalls").setLevel(logging.ERROR)
 
 
-if os.path.exists("Internal"):
-   load_dotenv("Internal")
+if os.path.exists(".env"):
+   load_dotenv(".env")
 
 
 API_ID = int(getenv("API_ID", 0))
