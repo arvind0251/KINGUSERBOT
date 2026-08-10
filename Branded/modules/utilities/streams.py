@@ -6,7 +6,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from pytgcalls.types import MediaStream
-from pytgcalls.types.stream import AudioQuality, VideoQuality
+from pytgcalls.types import AudioQuality, VideoQuality
 from youtubesearchpython.__future__ import VideosSearch
 
 from . import queues
@@ -104,7 +104,7 @@ async def get_result(query: str, video: bool = False):
         return None, None
 
     loop = asyncio.get_running_loop()
-    stream_url, kind_type = await loop.run_in_in_executor(
+    stream_url, kind_type = await loop.run_in_executor(
         None, _baby_fetch_sync, vidid, video
     )
     if not stream_url:
@@ -126,6 +126,8 @@ async def run_stream(link, type):
             audio_parameters=AudioQuality.STUDIO,
             video_parameters=VideoQuality.HD_720p,
         )
+    else:
+        return None
     return stream
 
 
