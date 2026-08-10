@@ -1,8 +1,0 @@
-API_ID=your_real_api_id
-API_HASH=your_real_api_hash
-BOT_TOKEN=your_real_bot_token
-STRING_SESSION=your_real_string_session
-MONGO_DB_URL=your_real_mongo_url
-LOG_GROUP_ID=your_real_log_group_id
-BASE_URL=https://api.babiesiq.tech
-API_KEY=ADMINBABYX_BE1B36999F84D14C6DAF231FA4768710577EC9A1
