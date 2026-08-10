@@ -1,7 +1,7 @@
-asyncio==3.4.3
-pyrogram-dev==2.1.0
+pip requirements
+pyrogram==2.1.0
 python-dotenv==1.0.1
-py-tgcalls==2.0.1
+pytgcalls==2.3.3
 ntgcalls==1.2.0
 tgcrypto==1.2.5
 youtube-search-python
