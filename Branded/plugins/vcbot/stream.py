@@ -1,7 +1,6 @@
 from asyncio.queues import QueueEmpty
 from pyrogram import filters
 from pytgcalls.exceptions import *
-from pytgcalls.types.calls import Call
 
 from ... import *
 from ...modules.mongo.streams import *
@@ -48,14 +47,11 @@ async def audio_stream(client, message):
 
         if chat_call:
             status = chat_call.status
-            if status == Call.Status.IDLE:
+            if status == "not_playing":
                 stream = await run_stream(file, type)
                 await call.play(chat_id, stream)
                 await aux.edit("Playing!")
-            elif (
-                status == Call.Status.PLAYING
-                or status == Call.Status.PAUSED
-            ):
+            elif status in ("playing", "paused"):
                 position = await queues.put(
                     chat_id, file=file, type=type
                 )
@@ -109,14 +105,11 @@ async def video_stream(client, message):
 
         if chat_call:
             status = chat_call.status
-            if status == Call.Status.IDLE:
+            if status == "not_playing":
                 stream = await run_stream(file, type)
                 await call.play(chat_id, stream)
                 await aux.edit("Playing!")
-            elif (
-                status == Call.Status.PLAYING
-                or status == Call.Status.PAUSED
-            ):
+            elif status in ("playing", "paused"):
                 position = await queues.put(
                     chat_id, file=file, type=type
                 )
@@ -178,14 +171,11 @@ async def audio_stream_(client, message):
             file = results[0]
         if chat_call:
             status = chat_call.status
-            if status == Call.Status.IDLE:
+            if status == "not_playing":
                 stream = await run_stream(file, type)
                 await call.play(chat_id, stream)
                 await aux.edit("Playing!")
-            elif (
-                status == Call.Status.PLAYING
-                or status == Call.Status.PAUSED
-            ):
+            elif status in ("playing", "paused"):
                 position = await queues.put(
                     chat_id, file=file, type=type
                 )
@@ -244,14 +234,11 @@ async def video_stream_(client, message):
             file = results[0]
         if chat_call:
             status = chat_call.status
-            if status == Call.Status.IDLE:
+            if status == "not_playing":
                 stream = await run_stream(file, type)
                 await call.play(chat_id, stream)
                 await aux.edit("Playing!")
-            elif (
-                status == Call.Status.PLAYING
-                or status == Call.Status.PAUSED
-            ):
+            elif status in ("playing", "paused"):
                 position = await queues.put(
                     chat_id, file=file, type=type
                 )
