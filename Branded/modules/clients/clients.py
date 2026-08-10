@@ -3,11 +3,11 @@ import os, sys
 from pyrogram import Client
 from pyrogram import filters
 from pytgcalls import PyTgCalls
-from motor.motor_asyncio import AsyncIOMotorClient
 
 from ...console import API_ID, API_HASH, STRING_SESSION
 from ...console import BOT_TOKEN, SESSION_STRING, LOGGER
-from ...console import MONGO_DB_URL, LOG_GROUP_ID, SUDOERS
+from ...console import LOG_GROUP_ID, SUDOERS
+from ..mongo.tgdb import mongodb, init_client as _init_tgdb_client
 
 
 def async_config():
@@ -23,9 +23,6 @@ def async_config():
         sys.exit()
     if not STRING_SESSION:
         LOGGER.info("'STRING_SESSION' - Not Found !")
-        sys.exit()
-    if not MONGO_DB_URL:
-        LOGGER.info("'MONGO_DB_URL' - Not Found !")
         sys.exit()
     if not LOG_GROUP_ID:
         LOGGER.info("'LOG_GROUP_ID' - Not Found !")
@@ -79,19 +76,14 @@ else:
     call = PyTgCalls(ass)
 
 
-def mongodbase():
-    global mongodb
-    try:
-        LOGGER.info("Connecting To Your Database ...")
-        async_client = AsyncIOMotorClient
-        mongobase = async_client(MONGO_DB_URL)
-        mongodb = mongobase.AdityaHalder
-        LOGGER.info("Conected To Your Database.")
-    except:
-        LOGGER.error("Failed To Connect, Please Change Your Mongo Database !")
-        sys.exit()
-
-mongodbase()
+# Telegram-group-backed storage (replaces MongoDB).
+# Data is stored as JSON inside a message in LOG_GROUP_ID, using the
+# already-authenticated userbot client. Actual network calls happen
+# lazily on first DB access, by which point app.start() has run.
+if not SESSION_STRING:
+    _init_tgdb_client(app)
+else:
+    _init_tgdb_client(ass)
 
 
 async def sudo_users():
@@ -141,5 +133,3 @@ async def run_async_clients():
     await call.start()
     LOGGER.info("PyTgCalls Client Started.")
     await sudo_users()
-    
-    
