@@ -55,6 +55,12 @@ PM_GUARD_LIMIT = int(getenv("PM_GUARD_LIMIT", 5))
 USERBOT_PICTURE = getenv("USERBOT_PICTURE", "https://telegra.ph/file/8c81173143a4923516c18.jpg")
 
 
+# ===================== BabyAPI (song/video fetch source) =====================
+BASE_URL = getenv("BASE_URL", "https://api.babiesiq.tech")
+API_KEY = getenv("API_KEY", None)
+STORAGE_DIR = getenv("STORAGE_DIR", "cache")
+
+
 
 # Don't Edit This Codes From This Line
 
