@@ -1,4 +1,4 @@
-from pytgcalls import filters
+from pyrogram import filters
 from pytgcalls.types import ChatUpdate, Update
 
 from . import queues
@@ -32,5 +32,3 @@ async def run_async_calls():
         type = check["type"]
         stream = await run_stream(file, type)
         return await call.play(chat_id, stream)
-    
-        
