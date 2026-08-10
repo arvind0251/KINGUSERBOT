@@ -1,5 +1,5 @@
 from pyrogram import filters
-from pytgcalls.types import ChatUpdate, Update
+from pytgcalls import ChatUpdate, Update
 
 from . import queues
 from ..clients.clients import app, call
