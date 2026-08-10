@@ -45,28 +45,29 @@ def async_dirs():
             os.remove(file)
     LOGGER.info("Directories Initialized.")
 
+
 async_dirs()
     
 
 app = Client(
-    name = "BRANDEDKING82",
-    api_id = API_ID,
-    api_hash = API_HASH,
-    session_string = STRING_SESSION,
+    name="BRANDEDKING82",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=STRING_SESSION,
 )
 
 ass = Client(
-    name = "BRANDEDKING82",
-    api_id = API_ID,
-    api_hash = API_HASH,
-    session_string = SESSION_STRING,
+    name="BRANDEDKING82",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=SESSION_STRING,
 )
 
 bot = Client(
-    name = "BRANDEDKING82",
-    api_id = API_ID,
-    api_hash = API_HASH,
-    bot_token = BOT_TOKEN,
+    name="BRANDEDKING82",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN,
 )
 
 
@@ -100,6 +101,14 @@ async def run_async_clients():
     LOGGER.info("Starting Userbot ...")
     await app.start()
     LOGGER.info("Userbot Started.")
+    LOGGER.info("Caching Peer Data (this prevents 'Peer id invalid' errors) ...")
+    try:
+        async for _ in app.get_dialogs():
+            pass
+    except Exception as e:
+        LOGGER.error(f"Peer caching failed: {e}")
+    LOGGER.info("Peer Data Cached.")
+
     try:
         await app.send_message(LOG_GROUP_ID, "**Userbot Started.**")
     except:
@@ -109,6 +118,7 @@ async def run_async_clients():
         await app.join_chat("Avisha_101")
     except:
         pass
+
     if SESSION_STRING:
         LOGGER.info("Starting Assistant ...")
         await ass.start()
@@ -118,10 +128,11 @@ async def run_async_clients():
         except:
             pass
         try:
-            await app.join_chat("datacheak")
-            await app.join_chat("Avisha_101")
+            await ass.join_chat("datacheak")
+            await ass.join_chat("Avisha_101")
         except:
             pass
+
     LOGGER.info("Starting Helper Robot ...")
     await bot.start()
     LOGGER.info("Helper Robot Started.")
@@ -129,7 +140,9 @@ async def run_async_clients():
         await bot.send_message(LOG_GROUP_ID, "**Helper Robot Started.**")
     except:
         pass
+
     LOGGER.info("Starting PyTgCalls Client...")
     await call.start()
     LOGGER.info("PyTgCalls Client Started.")
+
     await sudo_users()
