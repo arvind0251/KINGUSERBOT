@@ -1,7 +1,6 @@
 from asyncio.queues import QueueEmpty
 from pyrogram import filters
 from pytgcalls.exceptions import *
-from pytgcalls.types.calls import Call
 
 from ... import app, eor, cdx, cdz
 from ...modules.helpers.wrapper import *
@@ -19,10 +18,7 @@ async def skip_stream(client, message):
     try:
         if chat_call:
             status = chat_call.status
-            if (
-                status == Call.Status.PLAYING
-                or status == Call.Status.PAUSED
-            ):
+            if status in ("playing", "paused"):
                 queues.task_done(chat_id)
                 if queues.is_empty(chat_id):
                     await call.leave_call(chat_id)
@@ -33,13 +29,14 @@ async def skip_stream(client, message):
                 stream = await run_stream(file, type)
                 await call.play(chat_id, stream)
                 return await eor(message, "**Stream Skipped!**")
-            elif status == Call.Status.IDLE:
+            elif status == "not_playing":
                 await eor(message, "**Nothing Playing!**")
         else:
             await eor(message, "**I am Not in VC!**")
     except Exception as e:
         print(f"Error: {e}")
         pass
+
 
 
 
@@ -57,10 +54,7 @@ async def skip_stream_(client, message):
     try:
         if chat_call:
             status = chat_call.status
-            if (
-                status == Call.Status.PLAYING
-                or status == Call.Status.PAUSED
-            ):
+            if status in ("playing", "paused"):
                 queues.task_done(chat_id)
                 if queues.is_empty(chat_id):
                     await call.leave_call(chat_id)
@@ -71,7 +65,7 @@ async def skip_stream_(client, message):
                 stream = await run_stream(file, type)
                 await call.play(chat_id, stream)
                 return await eor(message, "**Stream Skipped!**")
-            elif status == Call.Status.IDLE:
+            elif status == "not_playing":
                 await eor(message, "**Nothing Playing!**")
         else:
             await eor(message, "**I am Not in VC!**")
