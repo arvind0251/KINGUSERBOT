@@ -104,7 +104,7 @@ async def video_stream(client, message):
                 query = message.text.split(None, 1)[1].split("?si=")[0]
             else:
                 query = message.text.split(None, 1)[1]
-            results = await get_result(query)
+            results = await get_result(query, video=True)
             file = results[0]
 
         if chat_call:
@@ -240,7 +240,7 @@ async def video_stream_(client, message):
                 query = message.text.split(None, 1)[1].split("?si=")[0]
             else:
                 query = message.text.split(None, 1)[1]
-            results = await get_result(query)
+            results = await get_result(query, video=True)
             file = results[0]
         if chat_call:
             status = chat_call.status
@@ -266,5 +266,3 @@ async def video_stream_(client, message):
     except Exception as e:
         print(e)
         pass
-
-  
